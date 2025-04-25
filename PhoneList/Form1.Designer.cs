@@ -36,9 +36,10 @@
             this.dgvList = new System.Windows.Forms.DataGridView();
             this.lbl2 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btRemove = new System.Windows.Forms.Button();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Nome = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Telefone = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btRemove = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -85,12 +86,13 @@
             this.dgvList.BackgroundColor = System.Drawing.Color.DarkOliveGreen;
             this.dgvList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.id,
             this.Nome,
             this.Telefone});
             this.dgvList.Location = new System.Drawing.Point(12, 12);
             this.dgvList.Name = "dgvList";
             this.dgvList.ReadOnly = true;
-            this.dgvList.Size = new System.Drawing.Size(296, 426);
+            this.dgvList.Size = new System.Drawing.Size(328, 426);
             this.dgvList.TabIndex = 4;
             // 
             // lbl2
@@ -114,6 +116,22 @@
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
             // 
+            // btRemove
+            // 
+            this.btRemove.Location = new System.Drawing.Point(559, 274);
+            this.btRemove.Name = "btRemove";
+            this.btRemove.Size = new System.Drawing.Size(126, 46);
+            this.btRemove.TabIndex = 7;
+            this.btRemove.Text = "Remover";
+            this.btRemove.UseVisualStyleBackColor = true;
+            this.btRemove.Click += new System.EventHandler(this.btRemove_Click);
+            // 
+            // id
+            // 
+            this.id.HeaderText = "id";
+            this.id.Name = "id";
+            this.id.ReadOnly = true;
+            // 
             // Nome
             // 
             this.Nome.HeaderText = "Nome";
@@ -125,16 +143,6 @@
             this.Telefone.HeaderText = "Telefone";
             this.Telefone.Name = "Telefone";
             this.Telefone.ReadOnly = true;
-            // 
-            // btRemove
-            // 
-            this.btRemove.Location = new System.Drawing.Point(559, 274);
-            this.btRemove.Name = "btRemove";
-            this.btRemove.Size = new System.Drawing.Size(126, 46);
-            this.btRemove.TabIndex = 7;
-            this.btRemove.Text = "Remover";
-            this.btRemove.UseVisualStyleBackColor = true;
-            this.btRemove.Click += new System.EventHandler(this.btRemove_Click);
             // 
             // Form1
             // 
@@ -170,9 +178,10 @@
         private System.Windows.Forms.DataGridView dgvList;
         private System.Windows.Forms.Label lbl2;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btRemove;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id;
         private System.Windows.Forms.DataGridViewTextBoxColumn Nome;
         private System.Windows.Forms.DataGridViewTextBoxColumn Telefone;
-        private System.Windows.Forms.Button btRemove;
     }
 }
 
