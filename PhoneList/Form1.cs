@@ -12,25 +12,50 @@ namespace PhoneList
 {
     public partial class Form1 : Form
     {
-        string[,] lista;
+        string[][] lista;
         readonly int max = 100;
-        int itens = 0;
+        string identificador = "";
         public Form1()
         {
             InitializeComponent();
-            lista = new string[max, 2];
+            lista = new string[max][];
+        }
+        int Length(string[][] e)
+        {
+            int itens = 0;
+            for (int i = 0; i < e.Length; i++)
+            {
+                if (e[i] != null)
+                {
+                    itens++;
+                }
+            }
+            return itens;
+        }
+
+        int Length(string[] e)
+        {
+            int itens = 0;
+            for (int i = 0; i < e.Length; i++)
+            {
+                if (e[i] != null)
+                {
+                    itens++;
+                }
+            }
+            return itens;
         }
 
         void Update()
         {
             dgvList.Rows.Clear();
-            for (int i = 0;i<itens; i++)
+            for (int i = 0; i < Length(lista); i++)
             {
                 DataGridViewRow row = new DataGridViewRow();
                 row.CreateCells(dgvList);
-                for (int j = 0; j < 2; j++)
+                for (int j = 0; j < Length(lista[i]); j++)
                 {
-                    row.Cells[j].Value = lista[i, j];
+                    row.Cells[j].Value = lista[i][j];
                 }
                 dgvList.Rows.Add(row);
             }
@@ -49,36 +74,70 @@ namespace PhoneList
                 MessageBox.Show("Insira nome e telefone!");
                 return;
             }
-            lista[itens, 0] = txtName.Text;
-            lista[itens, 1] = txtPhone.Text;
-            itens++;
 
+            if (identificador != "")
+            {
+                for (int i = 0; i < Length(lista); i++)
+                {
+                    if (lista[i][0] == identificador)
+                    {
+                        lista[i][1] = txtName.Text;
+                        lista[i][2] = txtPhone.Text;
+                        break;
+                    }
+                }
+                identificador = ""; 
+            }
+            else
+            {
+                int novoId = Length(lista) + 1;
+                lista[Length(lista)] = new string[] { novoId.ToString(), txtName.Text, txtPhone.Text };
+            }
+
+            txtName.Clear();
+            txtPhone.Clear();
             Update();
         }
 
         private void btRemove_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Deseja realmente remover?", "Remover", MessageBoxButtons.YesNo);
+            DataGridViewCell cell = dgvList.SelectedCells[0];
+            int linha = cell.RowIndex;
+            string idRemover = dgvList.Rows[linha].Cells[0].Value.ToString(); 
+
+            int indice = 0;
+            for (indice = 0; indice < Length(lista) && lista[indice][0] != idRemover; indice++) ;
+
+            DialogResult result = MessageBox.Show("Deseja realmente remover?", "", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                DataGridViewCell cell = dgvList.SelectedCells[0];
-                int indice = cell.RowIndex;
-                if (dgvList.SelectedCells.Count > 0)
+                for (int i = indice; i < Length(lista) - 1; i++)
                 {
-                    for (int i = indice; i < itens - 1; i++)
-                    {
-                        lista[i, 0] = lista[i + 1, 0];
-                        lista[i, 1] = lista[i + 1, 1];
-                    }
-                    itens--;
-                    Update();
+                    lista[i] = lista[i + 1];
                 }
-            }
-            else
-            {
-                return;
+                lista[Length(lista) - 1] = null;
+
+                // Após excluir, você pode reatribuir os IDs sequencialmente se quiser
+                for (int i = 0; i < Length(lista); i++)
+                {
+                    lista[i][0] = (i + 1).ToString(); // Atualiza os IDs
+                }
+
+                Update();
             }
 
+
+        }
+
+        private void dgvList_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.RowIndex < dgvList.Rows.Count)
+            {
+                DataGridViewRow row = dgvList.Rows[e.RowIndex];
+                identificador = row.Cells[0].Value.ToString();
+                txtName.Text = row.Cells[1].Value.ToString();
+                txtPhone.Text = row.Cells[2].Value.ToString();
+            }
 
         }
     }
